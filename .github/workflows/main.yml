@@ -33,6 +33,15 @@ jobs:
         ref: badges
     - name: Conclusion
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
+    - name: Generate tests badge SVG image
+      uses: emibcn/badge-action@v2.0.4
+      id: tests-badge
+      with:
+        label: 'Tests: '
+        label-color: 'black'
+        status: 'Success: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}'
+        color: 'green'
+        path: ./tests-badge.svg
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v2.0.4
       id: badges
@@ -49,8 +58,7 @@ jobs:
       run: |
         IS_UNTRACKED=$(echo $(git status | grep -c modified))
         echo "exist=${IS_UNTRACKED}" >> "${GITHUB_OUTPUT}"
-        echo $IS_UNTRACKED
-        
+        echo $IS_UNTRACKED        
     - name: Commit Coverage Badge    
       if: ${{ steps.untracked.outputs.exist > 0 }}
       run: |
