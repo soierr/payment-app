@@ -39,7 +39,7 @@ jobs:
       with:
         label: 'Tests:'
         label-color: 'black'
-        status: 'Success: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}'
+        status: 'Success: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}'
         color: 'green'
         path: ./tests-badge.svg
     - name: Generate the badge SVG image
