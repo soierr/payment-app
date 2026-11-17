@@ -1,0 +1,4 @@
+CREATE ROLE postgres
+    SUPERUSER
+LOGIN
+PASSWORD 'postgres'
