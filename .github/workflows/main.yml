@@ -47,13 +47,13 @@ jobs:
     - name: Check Untracked
       id: untracked
       run: |
-        IS_UNTRACKED=$(echo $(git status | grep -c Untracked))
+        IS_UNTRACKED=$(echo $(git status | grep -c modified))
         echo "exist=${IS_UNTRACKED}" >> "${GITHUB_OUTPUT}"
         echo $IS_UNTRACKED
         
     - name: Commit Coverage Badge
     
-      if: ${{ steps.untracked.outputs.exist == 1 }}
+      if: ${{ steps.untracked.outputs.exist > 0 }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
