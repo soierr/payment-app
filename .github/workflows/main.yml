@@ -40,7 +40,7 @@ jobs:
         label-color: 'black'
         status: 90        
         color: 'green'
-        path: ./test-badge.svg
+        path: ./coverage-badge.svg
     - name: Check current folder
       run: ls -al
     - name: Commit badge
@@ -48,7 +48,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add ./test-badge.svg
+        git add ./coverage-badge.svg
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
