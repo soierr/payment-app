@@ -47,7 +47,7 @@ jobs:
     - name: Check Untracked
       id: untracked
       run: |
-        IS_UNTRACKED=$(git status | grep -c Untracked)
+        UNTRACKED=$(git status | grep -c Untracked)
         
     - name: Commit Coverage Badge
       if: ${{ steps.untracked.outputs.exist }}
