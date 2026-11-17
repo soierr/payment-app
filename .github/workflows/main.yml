@@ -39,7 +39,7 @@ jobs:
       with:
         label: 'Test coverage'
         label-color: 'black'
-        status: 90        
+        status: 85%
         color: 'green'
         path: ./coverage-badge.svg
     - name: Check current folder
