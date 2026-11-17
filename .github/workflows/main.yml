@@ -44,8 +44,13 @@ jobs:
         path: ./coverage-badge.svg
     - name: Check current folder
       run: ls -al
-    - name: Commit badge
-      continue-on-error: true      
+    - name: Check Untracked
+      id: untracked
+      run: |
+        IS_UNTRACKED = $(git status | grep -c Untracked)
+        echo "exist=$IS_UNTRACKED" >> "$GITHUB_OUTPUT"
+    - name: Commit Coverage Badge
+      if: ${{ steps.untracked.outputs.exist }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
