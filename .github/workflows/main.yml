@@ -51,8 +51,7 @@ jobs:
         echo "exist=${IS_UNTRACKED}" >> "${GITHUB_OUTPUT}"
         echo $IS_UNTRACKED
         
-    - name: Commit Coverage Badge
-    
+    - name: Commit Coverage Badge    
       if: ${{ steps.untracked.outputs.exist > 0 }}
       run: |
         git config --local user.email "action@github.com"
