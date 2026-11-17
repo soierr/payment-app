@@ -28,7 +28,7 @@ jobs:
       id: test-results
       if: (!cancelled())
       with:
-        files: "./target/surefire-reports/*.xml"
+        files: "./payment-app-main/target/surefire-reports/*.xml"
     - name: Conclusion
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
       
