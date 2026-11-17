@@ -8,6 +8,7 @@ spring:
     username: payment
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
+    
 #  rabbitmq:
 #    host: localhost
 #    port: 5672
