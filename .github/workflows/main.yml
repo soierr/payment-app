@@ -1,0 +1,12 @@
+name: Build
+run-name: ${{ github.actor }} 
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello there"
