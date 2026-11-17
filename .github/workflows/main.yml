@@ -34,11 +34,11 @@ jobs:
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v2.0.4
-      id: badge
+      id: badges
       with:
         label: 'Test coverage'
         status: 90
-        color: 'blue,555,daf'
+        color: 'green'
         path: ./test-badge.svg
     - name: Check current folder
       run: ls -al
@@ -54,6 +54,6 @@ jobs:
       if: ${{ success() }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: badge
+        branch: badges
       
   
