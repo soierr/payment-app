@@ -38,7 +38,7 @@ jobs:
       with:
         label: 'Test coverage'
         status: 90
-        color: 'green'
+        color: 'black,green'
         path: ./test-badge.svg
     - name: Check current folder
       run: ls -al
