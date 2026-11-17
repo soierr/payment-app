@@ -59,12 +59,12 @@ jobs:
         IS_UNTRACKED=$(echo $(git status | grep -c modified))
         echo "exist=${IS_UNTRACKED}" >> "${GITHUB_OUTPUT}"
         echo $IS_UNTRACKED        
-    - name: Commit Coverage Badge    
+    - name: Commit Badges   
       if: ${{ steps.untracked.outputs.exist > 0 }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add ./coverage-badge.svg
+        git add .
         git commit -m "Add/Update coverage badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
