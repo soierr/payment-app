@@ -7,7 +7,7 @@
   <mask id="m"><rect width="3383" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="391" height="200" fill="#2A2A2A"/>
-    <rect width="2992" height="200" fill="#060" x="391"/>
+    <rect width="2992" height="200" fill="#640" x="391"/>
     <rect width="3383" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
