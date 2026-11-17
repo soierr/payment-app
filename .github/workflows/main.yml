@@ -39,7 +39,7 @@ jobs:
       with:
         label: 'Test coverage'
         label-color: 'black'
-        status: 80%
+        status: 85%
         color: 'green'
         path: ./coverage-badge.svg
     - name: Check current folder
@@ -53,7 +53,7 @@ jobs:
         
     - name: Commit Coverage Badge
     
-      # if: ${{ steps.untracked.outputs.exist == 1 }}
+      if: ${{ steps.untracked.outputs.exist == 1 }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
