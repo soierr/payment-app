@@ -27,6 +27,9 @@ jobs:
       if: (!cancelled())
       with:
         files: "./payment-app-main/target/surefire-reports/*.xml"
+    - uses: actions/checkout@v7
+      with:
+        ref: badges
     - name: Conclusion
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
     - name: Generate the badge SVG image
