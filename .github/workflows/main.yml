@@ -40,7 +40,7 @@ jobs:
         label: 'Tests'
         label-color: 'black'
         status: 'All: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests }}, Success: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Errors: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Skipped: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}'
-        color: 'darkgreen'
+        color: 'dark-green'
         path: ./tests-badge.svg
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v2.0.4
