@@ -37,7 +37,7 @@ jobs:
       uses: emibcn/badge-action@v2.0.4
       id: tests-badge
       with:
-        label: 'Tests: '
+        label: 'Tests:'
         label-color: 'black'
         status: 'Success: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).tests_succ }}'
         color: 'green'
@@ -48,7 +48,7 @@ jobs:
       with:
         label: 'Test coverage'
         label-color: 'black'
-        status: 90%
+        status: 91%
         color: 'green'
         path: ./coverage-badge.svg
     - name: Check current folder
