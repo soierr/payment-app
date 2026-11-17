@@ -21,4 +21,15 @@ jobs:
         distribution: 'oracle-openjdk'
     - name: Build with Maven
       run: mvn clean package
+    - name: Check current folder
+      run: ls -al
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      id: test-results
+      if: (!cancelled())
+      with:
+        files: "./target/surefire-reports/*.xml"
+    - name: Conclusion
+      run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
+      
   
