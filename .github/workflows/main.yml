@@ -8,5 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
     steps:
-      - run: echo "Hello there"
+    - uses: actions/checkout@v7
+    - name: Set up JDK 25
+      uses: actions/setup-java@v6
+      with:
+        java-version: '25'
+        distribution: 'oracle-openjdk'
