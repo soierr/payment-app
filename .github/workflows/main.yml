@@ -27,6 +27,7 @@ jobs:
       if: (!cancelled())
       with:
         files: "./payment-app-main/target/surefire-reports/*.xml"
+        job_summary: false
     - uses: actions/checkout@v7
       with:
         ref: badges
