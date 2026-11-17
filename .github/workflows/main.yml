@@ -50,6 +50,7 @@ jobs:
         IS_UNTRACKED=$(echo $(git status | grep -c Untracked))
         echo "exist=${IS_UNTRACKED}" >> "${GITHUB_OUTPUT}"
         echo $IS_UNTRACKED
+        
     - name: Commit Coverage Badge
       if: ${{ steps.untracked.outputs.exist == 1 }}
       run: |
