@@ -1,0 +1,7 @@
+package payment.model;
+
+public enum PaymentSendResult {
+    SENT_TO_PARTNER_FAILED_TIMEOUT,
+    SENT_TO_PARTNER_FAILED_OTHER,
+    SENT_TO_PARTNER_SUCCESS
+}

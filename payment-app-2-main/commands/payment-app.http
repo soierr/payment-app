@@ -1,0 +1,11 @@
+### Create payment
+
+POST http://localhost:8082/payment
+Content-Type: application/json
+
+{
+  "key": "key-1",
+  "paymentDate": "2026-11-19T10:00:00.123Z",
+  "amount": 100.00,
+  "merchant": "merchant-1"
+}

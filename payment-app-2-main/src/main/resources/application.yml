@@ -1,0 +1,26 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/payment-db
+    password: payment
+    username: payment
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
+  mvc:
+    problemdetails:
+      enabled: true
+external:
+  partners:
+    "merchant_1":
+      payment-url: "http://localhost:8080/bank-1/payment"
+      idempotent: true
+    "merchant_2":
+      payment-url: "http://localhost:8080/bank-2/payment"
+      idempotent: true
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
+    org.springframework.web.HttpLogging: TRACE

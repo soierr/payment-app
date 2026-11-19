@@ -1,0 +1,29 @@
+package payment.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import payment.dto.PaymentDto;
+import payment.dto.PaymentResultDto;
+import payment.service.PaymentProcessor;
+
+@RestController
+@RequestMapping("/payment")
+@RequiredArgsConstructor
+public class PaymentController {
+
+    /*
+        Responsibility for a controller here is to only validate dto
+        and pass it for processing
+     */
+
+    private final PaymentProcessor paymentProcessor;
+
+    @PostMapping
+    PaymentResultDto createPayment(@Validated @RequestBody PaymentDto paymentDto) {
+        return paymentProcessor.process(paymentDto);
+    }
+}
