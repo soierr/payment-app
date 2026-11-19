@@ -62,25 +62,6 @@ jobs:
         intervals: 100 90 80 70 60 0
         generate-summary: false
         generate-workflow-summary: true
-    # - name: Commit Jacoco Badges   
-    #   run: |
-    #     if [[ `git status --porcelain` ]]; then
-    #       git config --local user.email "action@github.com"
-    #       git config --local user.name "GitHub Action"
-    #       git add ./jacoco-coverage.svg
-    #       git add ./jacoco-branches.svg
-    #       git commit -m "Add/Update jacoco badge"
-    #       git push
-    #     fi
-    # - name: Generate the badge SVG image
-    #   uses: emibcn/badge-action@v2.0.4
-    #   id: badges
-    #   with:
-    #     label: 'Test coverage'
-    #     label-color: 'black'
-    #     status: 91%
-    #     color: 'green'
-    #     path: ./coverage-badge.svg
     - name: Check current folder
       run: ls -al
     - name: Check Untracked
