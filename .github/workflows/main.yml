@@ -28,7 +28,7 @@ jobs:
       with:
         files: "./payment-app-2-main/target/surefire-reports/*.xml"
         job_summary: false    
-        comment_mode: off
+        check_run: false
     - name: Check current folder
       run: ls -al
     - uses: actions/checkout@v7
