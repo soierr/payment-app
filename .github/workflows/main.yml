@@ -38,6 +38,8 @@ jobs:
         coverage-label: coverage
         colors: '#4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44'
         intervals: 100 90 80 70 60 0
+    - name: Check current folder
+      run: ls -al
     - uses: actions/checkout@v7
       with:
         ref: badges
