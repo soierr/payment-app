@@ -10,7 +10,6 @@ public class PaymentApp {
     static void main(String[] args) {
 
         SpringApplication app = new SpringApplicationBuilder(PaymentApp.class)
-                //.properties("spring.config.name: application, bootstrap")
                 .build(args);
         app.run();
     }
