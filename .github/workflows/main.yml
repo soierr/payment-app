@@ -42,15 +42,25 @@ jobs:
         status: 'All: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests }}, Success: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Errors: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Skipped: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}'
         color: '640'
         path: ./tests-badge.svg
-    - name: Generate the badge SVG image
-      uses: emibcn/badge-action@v2.0.4
-      id: badges
+    # - name: Generate the badge SVG image
+    #   uses: emibcn/badge-action@v2.0.4
+    #   id: badges
+    #   with:
+    #     label: 'Test coverage'
+    #     label-color: 'black'
+    #     status: 91%
+    #     color: 'green'
+    #     path: ./coverage-badge.svg
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
       with:
-        label: 'Test coverage'
-        label-color: 'black'
-        status: 91%
-        color: 'green'
-        path: ./coverage-badge.svg
+        jacoco-csv-file: ./payment-app-2-main/target/site/jacoco/jacoco.csv
+        badges-directory: .
+        generate-coverage-badge: true
+        coverage-badge-filename: jacoco.svg
+        coverage-label: coverage
+        colors: '#4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44'
+        intervals: 100 90 80 70 60 0
     - name: Check current folder
       run: ls -al
     - name: Check Untracked
