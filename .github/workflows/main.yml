@@ -33,6 +33,7 @@ jobs:
     - uses: actions/checkout@v7
       with:
         ref: badges
+        clean: false
     - name: Conclusion
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
     - name: Check current folder
