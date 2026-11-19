@@ -63,7 +63,6 @@ jobs:
     - name: Commit Jacoco Badges   
       run: |
         if [[ `git status --porcelain` ]]; then
-          git checkout badges
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./jacoco-coverage.svg
