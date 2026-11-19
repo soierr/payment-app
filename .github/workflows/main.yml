@@ -38,6 +38,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add .github/badges/jacoco.svg
           git commit -m "Add/Update jacoco badge"
+          git push
         fi
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
