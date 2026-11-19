@@ -26,13 +26,15 @@ jobs:
       id: test-results
       if: (!cancelled())
       with:
-        files: "./payment-app-main/target/surefire-reports/*.xml"
+        files: "./payment-app-2-main/target/surefire-reports/*.xml"
         job_summary: false
     - uses: actions/checkout@v7
       with:
         ref: badges
     - name: Conclusion
       run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
+    - name: Check current folder
+      run: ls -al
     - name: Generate tests badge SVG image
       uses: emibcn/badge-action@v2.0.4
       id: tests-badge
