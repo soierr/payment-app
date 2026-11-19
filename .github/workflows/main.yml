@@ -46,7 +46,7 @@ jobs:
         label-color: 'black'
         status: 'All: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests }}, Success: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Errors: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Skipped: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}'
         color: '640'
-        path: ./tests-badge.svg
+        path: ./test-stats-badge.svg
     - name: Generate JaCoCo Badge
       uses: cicirello/jacoco-badge-generator@v2
       with:
