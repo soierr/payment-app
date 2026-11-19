@@ -66,8 +66,8 @@ jobs:
           git checkout badges
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .github/badges/jacoco-coverage.svg
-          git add .github/badges/jacoco-branches.svg
+          git add ./jacoco-coverage.svg
+          git add ./jacoco-branches.svg
           git commit -m "Add/Update jacoco badge"
           git push
         fi
