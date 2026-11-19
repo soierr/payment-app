@@ -46,12 +46,12 @@ jobs:
         label-color: 'black'
         status: 'All: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests }}, Success: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_succ }}, Failures: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Errors: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_fail }}, Skipped: ${{ fromJSON( steps.test-results.outputs.json ).stats.tests_skip }}'
         color: '640'
-        path: ./test-stats-badge.svg
+        path: ./tests-summary.svg
     - name: Generate JaCoCo Badge
       uses: cicirello/jacoco-badge-generator@v2
       with:
         jacoco-csv-file: ./payment-app-2-main/target/site/jacoco/jacoco.csv
-        badges-directory: .github/badges
+        badges-directory: .
         generate-coverage-badge: true
         coverage-badge-filename: jacoco-coverage.svg
         generate-branches-badge: true
