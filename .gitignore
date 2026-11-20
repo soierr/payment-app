@@ -9,8 +9,9 @@ target/
 
 ### Passwords ###
 
-./payment-app-2-main/src/main/resources/mvn_plugin/liquibase.yml
-./payment-app-2-main/src/main/resources/creds-local.yml
+/payment-app-2-main/src/main/resources/mvn_plugin/liquibase.yml
+/payment-app-2-main/src/main/resources/creds-local.yml
+/payment-app-2-main/src/main/resources/creds-local-1.yml
 
 ### Eclipse ###
 .apt_generated
