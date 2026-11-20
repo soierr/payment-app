@@ -97,7 +97,7 @@
                 <version>5.0.1</version>
                 <configuration>
                     <!--If it is not found try recompiling the project-->
-                    <propertyFile>mvn_plugin/liquibase.properties</propertyFile>
+                    <propertyFile>mvn_plugin/liquibase.yml</propertyFile>
                 </configuration>
                 <dependencies>
                     <dependency>
