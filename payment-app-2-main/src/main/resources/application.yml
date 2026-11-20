@@ -1,16 +1,15 @@
 server:
   port: 8082
 spring:
+  config:
+    import: optional:classpath:creds-local.yml # for local env
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/payment-db
-    password: payment
-    username: payment
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
-  mvc:
-    problemdetails:
-      enabled: true
 external:
   partners:
     "merchant_1":
