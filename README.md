@@ -7,7 +7,7 @@
 
 A playground to solidify my approaches in development and check some interesting ideas
 
-Not a business application, though based on real enterprise experience
+Not a business application, based on real enterprise experience though
 
 
 
