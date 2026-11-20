@@ -3,5 +3,5 @@
 
 # changeLogFile: db.changelog-master.xml
 url: jdbc:postgresql://localhost:5432/payment-db
-username: payment
-password: payment
+username: 
+password: 
