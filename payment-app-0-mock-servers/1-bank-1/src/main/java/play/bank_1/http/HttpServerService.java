@@ -18,8 +18,8 @@ public class HttpServerService {
 
         try {
 
-            httpServer = HttpServer.create(new InetSocketAddress(8080), 0);
-            httpServer.createContext("/payment", paymentHttpHandler);
+            httpServer = HttpServer.create(new InetSocketAddress(8083), 0);
+            httpServer.createContext("/bank-1/payment", paymentHttpHandler);
             httpServer.start();
 
         } catch (IOException e) {

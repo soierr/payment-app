@@ -1,0 +1,32 @@
+server:
+  port: 8082
+spring:
+  config:
+    import: optional:classpath:creds-local.yml # for local env
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/payment-db
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
+    enabled: false
+external:
+  partners:
+    "partner_1":
+      base-url: "http://localhost:8080"
+      uri: "/payment"
+      idempotent: true
+      connection-timeout-millis: 2000
+      read-timeout-millis: 5000
+    "partner_2":
+      base-url: "http://localhost:8084"
+      uri: "/bank-2/payment"
+      idempotent: false
+      connection-timeout-millis: 1000
+      read-timeout-millis: 1000
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
+    org.springframework.web.HttpLogging: TRACE

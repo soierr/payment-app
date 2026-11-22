@@ -7,8 +7,8 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>payment-app-2-main</module>
     <module>payment-app-0-mock-servers</module>
+    <module>payment-app-2-main</module>
   </modules>
 
   <properties>
