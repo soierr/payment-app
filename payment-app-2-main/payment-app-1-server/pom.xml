@@ -8,10 +8,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <project.version>1.0-SNAPSHOT</project.version>
-    </properties>
-
     <artifactId>payment-app-1-server</artifactId>
 
     <build>
