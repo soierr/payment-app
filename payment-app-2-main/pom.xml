@@ -26,10 +26,6 @@
         <postgresql.version>42.7.9</postgresql.version>
     </properties>
 
-    <scm>
-        <developerConnection>scm:git:https://github.com/soierr/payment-app.git</developerConnection>
-    </scm>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

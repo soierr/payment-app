@@ -17,6 +17,10 @@
     <maven.compiler.target>25</maven.compiler.target>
   </properties>
 
+  <scm>
+    <developerConnection>scm:git:https://github.com/soierr/payment-app.git</developerConnection>
+  </scm>
+
   <build>
     <pluginManagement>
       <plugins>
