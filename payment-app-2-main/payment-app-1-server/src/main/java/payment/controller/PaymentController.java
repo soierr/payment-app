@@ -16,8 +16,8 @@ import payment.service.PaymentProcessor;
 public class PaymentController {
 
     /*
-        Responsibility for a controller here is to only validate dto
-        and pass it for processing
+        Responsibility for the controller here is to only validate dto
+        and pass it for further processing
      */
 
     private final PaymentProcessor paymentProcessor;
