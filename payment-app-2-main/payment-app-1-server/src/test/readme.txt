@@ -1,5 +1,5 @@
 unit folder - for unit tests
-component folder - For Spring @WebMvc component tests
+component folder - for Spring @WebMvc component tests or other similar light-weight tests
 
 ---
 All these test contributes to coverage calculated by JaCoCo
