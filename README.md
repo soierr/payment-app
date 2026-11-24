@@ -11,7 +11,7 @@ Not a business application, based on real enterprise experience though
 
 Under active development. Plans are the following:
 
-- unit test coverage ~90%
+- unit test coverage instructions, branches: ~90%
 - pipeline feature setup: docker image publish to Docker Hub for integration tests
 - pipeline feature setup: integration test run
 - release job setup with maven-release-plugin
