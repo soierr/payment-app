@@ -5,7 +5,7 @@
 
 ### Payment Application
 
-A playground to solidify my approaches in development and check some interesting ideas
+A playground to solidify common approaches in Java Spring app development and check some interesting ideas
 
 Not a business application, based on real enterprise experience though
 
