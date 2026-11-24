@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 
 
 /*
-    Here we return some important attributes
-    for API client to identify the payment in case of any problems
+    Here we return some important attributes, projection of PaymentDto
+    For the API client to identify a payment in case of any problems
  */
 @RequiredArgsConstructor
 @Getter
