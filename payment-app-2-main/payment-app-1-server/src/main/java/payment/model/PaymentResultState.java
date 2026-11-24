@@ -2,7 +2,7 @@ package payment.model;
 
 public enum PaymentResultState {
     PROCESSED,
-    RECOVERABLE_ERROR,
+    TIMEOUT_ERROR,
     VALIDATION_ERROR,
     INTERNAL_ERROR
 }

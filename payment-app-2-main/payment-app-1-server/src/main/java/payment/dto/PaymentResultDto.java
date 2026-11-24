@@ -7,6 +7,7 @@ import lombok.Setter;
 import payment.model.PaymentResultState;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 
 /*
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 @Builder
 public class PaymentResultDto {
     private final String key;
-    private final String paymentDate;
+    private final Instant paymentDate;
     private final BigDecimal amount;
     private final String partner;
     private final PaymentResultState paymentResultState;

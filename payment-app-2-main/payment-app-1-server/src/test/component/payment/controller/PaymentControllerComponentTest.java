@@ -173,7 +173,7 @@ class PaymentControllerComponentTest {
 
         PaymentResultDto paymentResultDto = PaymentResultDto.builder()
                 .key("key-1")
-                .paymentDate("2026-11-19T10:00:00.123Z")
+                .paymentDate(Instant.parse("2026-11-19T10:00:00.123Z"))
                 .amount(new BigDecimal("10.00"))
                 .paymentResultState(PaymentResultState.PROCESSED)
                 .partner("partner-1")

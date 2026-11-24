@@ -2,29 +2,53 @@ package payment.service.impl;
 
 import org.springframework.stereotype.Component;
 import payment.dto.PaymentResultDto;
+import payment.model.PaymentCreateResult;
+import payment.model.PaymentResultState;
 import payment.model.PaymentRuntimeResult;
+import payment.model.PaymentSendResult;
+import payment.model.PaymentUpdateResult;
 import payment.service.PaymentResultResolver;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @Component
 public class PaymentResultResolverImpl implements PaymentResultResolver {
 
-    public PaymentResultDto resolve(PaymentRuntimeResult paymentRuntimeResult) {
+    private final Map<String, PaymentResultState> states;
 
-        return null;
+    public PaymentResultResolverImpl() {
 
-        /*return PaymentResultDto.builder()
-                .paymentDate(paymentResult.getPaymentDate())
-                .key(paymentResult.getKey())
-                .amount(paymentResult.getAmount())
-                .paymentResultState(map(paymentResult.getPaymentResultState()))
-                .build();*/
+        this.states = Map.of(
+                PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
+                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
+                PaymentCreateResult.CREATE_DB_FAILED_OTHER.name(), PaymentResultState.INTERNAL_ERROR);
+        /*
+            According to mapping there are errors which we treat as success like UPDATE_DB_FAILED_TIMEOUT
+            The payment considered as PROCESSED in this case
+         */
     }
 
-    /*private PaymentResultState map(PaymentResultStateInternal paymentResultInternalState) {
+    public PaymentResultDto resolve(PaymentRuntimeResult paymentRuntimeResult) {
 
-        return switch (paymentResultInternalState) {
-            case UPDATE_DB_FAILED -> PaymentResultState.INTERNAL_ERROR;
-        };
+        return PaymentResultDto.builder()
+                .paymentDate(paymentRuntimeResult.getPaymentDto().getPaymentDate())
+                .key(paymentRuntimeResult.getPaymentDto().getKey())
+                .amount(paymentRuntimeResult.getPaymentDto().getAmount())
+                .paymentResultState(map(paymentRuntimeResult))
+                .build();
+    }
 
-    }*/
+    private PaymentResultState map(PaymentRuntimeResult paymentRuntimeResult) {
+
+        return Stream.of(paymentRuntimeResult.getPaymentCreateResult(),
+                        paymentRuntimeResult.getPaymentSendResult())
+                .map(Enum::name)
+                .map(states::get)
+                .findFirst()
+                .orElse(PaymentResultState.PROCESSED);
+    }
 }
