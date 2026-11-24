@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 import payment.model.PaymentResultState;
 
 import java.math.BigDecimal;
@@ -22,6 +21,6 @@ public class PaymentResultDto {
     private final String key;
     private final String paymentDate;
     private final BigDecimal amount;
-    private final String merchant;
+    private final String partner;
     private final PaymentResultState paymentResultState;
 }

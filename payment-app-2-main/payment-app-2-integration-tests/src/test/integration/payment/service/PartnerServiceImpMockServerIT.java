@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import payment.dto.PaymentDto;
-import payment.model.Partner;
 import payment.model.PaymentSendResult;
 import payment.repository.PaymentRepository;
 import payment.service.impl.PartnerServiceImpl;

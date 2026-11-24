@@ -1,5 +1,6 @@
 
 package payment.service;
+
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
@@ -18,7 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import payment.dto.PaymentDto;
-import payment.model.Partner;
 import payment.model.PaymentSendResult;
 import payment.repository.PaymentRepository;
 import payment.service.impl.PartnerServiceImpl;

@@ -1,9 +1,0 @@
-package payment.model;
-
-public enum PaymentState {
-    RECEIVED,
-    SENT_TO_PARTNER_FAILED_TIMEOUT,
-    SENT_TO_PARTNER_FAILED_OTHER,
-    UPDATE_DB_FAILED,
-    PROCESSING_COMPLETED
-}

@@ -5,7 +5,6 @@ import org.springframework.boot.http.client.HttpClientSettings;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import payment.model.Partner;
 import payment.model.PartnerClient;
 import payment.properties.PartnerConfig;
 import payment.properties.PartnerProperties;
@@ -13,7 +12,6 @@ import payment.service.PartnerClientManager;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.stream.Collectors;
 
