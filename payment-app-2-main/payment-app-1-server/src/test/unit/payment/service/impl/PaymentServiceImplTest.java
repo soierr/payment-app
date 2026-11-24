@@ -63,7 +63,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void testCreatPaymentExceptionIsThrown() {
+    void testCreatPaymentExceptionIsNotPropagated() {
 
         Instant paymentDate = Instant.now();
 
@@ -107,4 +107,13 @@ class PaymentServiceImplTest {
 
         assertThat(paymentCreateResult).isEqualTo(PaymentCreateResult.CREATE_DB_FAILED_OTHER);
     }
+
+    @Test
+    void testFindByKey() {
+
+        paymentService.findByKey("key-1");
+
+        verify(paymentRepository, times(1)).findByKey("key-1");
+    }
+
 }
