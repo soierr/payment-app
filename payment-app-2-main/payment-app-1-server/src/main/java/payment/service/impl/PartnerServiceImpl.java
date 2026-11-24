@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
@@ -48,14 +47,13 @@ public class PartnerServiceImpl implements PartnerService {
             log.error(PAYMENT_SENDING_FAILED, recoverableException);
 
             return PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT;
-        }
-        catch (RuntimeException e) {
+
+        } catch (RuntimeException e) {
 
             log.error(PAYMENT_SENDING_FAILED, e);
 
             //map error here: recoverable/non-recoverable
             return PaymentSendResult.SENT_TO_PARTNER_FAILED_OTHER;
         }
-
     }
 }
