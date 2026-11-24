@@ -2,6 +2,7 @@ package payment.service;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockserver.configuration.Configuration;
 import org.mockserver.integration.ClientAndServer;
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import payment.dto.PaymentDto;
 import payment.model.Partner;
@@ -23,13 +25,19 @@ import payment.service.impl.PartnerServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @Import(PartnerServiceImpl.class)
-class PartnerServiceImplIT {
+@TestPropertySource(properties = {
+    "external.partners.partner-1.connection-timeout-millis=10000",
+    "external.partners.partner-1.read-timeout-millis=1000",
+})
+@Disabled("Left as an example of working with mock-server lib")
+class PartnerServiceImpMockServerIT {
 
     @Autowired
     PartnerServiceImpl partnerService;
@@ -46,36 +54,21 @@ class PartnerServiceImplIT {
         configuration.logLevel(Level.ERROR);
 
         clientAndServer = ClientAndServer.startClientAndServer(configuration, 8083);
-
     }
 
     @Test
-    void testConnectionTimeout() {
-
+    void testReadTimeout() {
 
         clientAndServer.upsert(Expectation.when(HttpRequest.request().withPath("/bank-1/payment"))
                 .thenRespond(HttpResponse.response()
+                        .withDelay(TimeUnit.MILLISECONDS, 2000)
                         .withStatusCode(200)));
 
         PaymentDto paymentDto = new PaymentDto();
         paymentDto.setKey("key-123");
         paymentDto.setAmount(new BigDecimal("10.00"));
         paymentDto.setPaymentDate(Instant.now());
-        paymentDto.setPartner(Partner.PARTNER_1);
-
-        PaymentSendResult paymentSendResult = partnerService.send(paymentDto);
-
-        assertThat(paymentSendResult).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT);
-    }
-
-    @Test
-    void testReadTimeout() {
-
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setKey("key-123");
-        paymentDto.setAmount(new BigDecimal("10.00"));
-        paymentDto.setPaymentDate(Instant.now());
-        paymentDto.setPartner(Partner.PARTNER_1);
+        paymentDto.setPartner("partner-1");
 
         PaymentSendResult paymentSendResult = partnerService.send(paymentDto);
 

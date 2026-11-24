@@ -13,13 +13,13 @@ spring:
     enabled: false
 external:
   partners:
-    "partner_1":
-      base-url: "http://localhost:8080"
-      uri: "/payment"
+    "partner-1":
+      base-url: "http://localhost:8083"
+      uri: "/bank-1/payment"
       idempotent: true
       connection-timeout-millis: 2000
       read-timeout-millis: 5000
-    "partner_2":
+    "partner-2":
       base-url: "http://localhost:8084"
       uri: "/bank-2/payment"
       idempotent: false

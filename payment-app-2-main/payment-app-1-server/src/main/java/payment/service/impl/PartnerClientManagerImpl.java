@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class PartnerClientManagerImpl implements PartnerClientManager {
 
-    private final Map<Partner, PartnerClient> partnerClients;
+    private final Map<String, PartnerClient> partnerClients;
 
     public PartnerClientManagerImpl(PartnerProperties partnerProperties) {
         partnerClients = partnerProperties.getPartners()
@@ -30,7 +30,7 @@ public class PartnerClientManagerImpl implements PartnerClientManager {
     }
 
     @Override
-    public PartnerClient get(Partner partner) {
+    public PartnerClient get(String partner) {
         return partnerClients.get(partner);
     }
 

@@ -111,7 +111,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>play.App</mainClass>
+                            <mainClass>play.bank_1.MockBank1</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

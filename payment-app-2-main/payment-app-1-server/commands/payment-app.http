@@ -9,3 +9,7 @@ Content-Type: application/json
   "amount": 100.00,
   "partner": "PARTNER_1"
 }
+
+### Connection Timeout
+POST http://172.18.0.2:8080/payment
+Content-Type: application/json

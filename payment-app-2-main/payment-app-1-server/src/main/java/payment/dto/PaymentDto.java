@@ -1,6 +1,7 @@
 package payment.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,6 @@ public class PaymentDto {
     private Instant paymentDate;
     @NotNull
     private BigDecimal amount;
-    @NotNull
-    private Partner partner;
+    @NotBlank
+    private String partner;
 }

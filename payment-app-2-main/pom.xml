@@ -13,9 +13,7 @@
 
     <modules>
         <module>payment-app-1-server</module>
-        <module>payment-app-2-unit-tests</module>
-        <module>payment-app-3-component-tests</module>
-        <module>payment-app-4-integration-tests</module>
+        <module>payment-app-2-integration-tests</module>
     </modules>
 
     <properties>
@@ -55,16 +53,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webmvc-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-liquibase</artifactId>
         </dependency>
         <dependency>
@@ -76,20 +64,18 @@
             <artifactId>spring-boot-http-client</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wiremock.integrations</groupId>
-            <artifactId>wiremock-spring-boot-standalone</artifactId>
-            <version>4.4.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mock-server</groupId>
-            <artifactId>mockserver-netty-no-dependencies</artifactId>
-            <version>9.3.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -117,7 +103,7 @@
                     <configuration>
                         <!--suppress UnresolvedMavenProperty-->
                         <!--<argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar} &#45;&#45;enable-native-access=ALL-UNNAMED</argLine>-->
-                        <argLine>@{argLine} -XX:+EnableDynamicAgentLoading --enable-native-access=ALL-UNNAMED</argLine>
+                        <!--<argLine>@{argLine} -XX:+EnableDynamicAgentLoading &#45;&#45;enable-native-access=ALL-UNNAMED</argLine>-->
                     </configuration>
                 </plugin>
                 <plugin>

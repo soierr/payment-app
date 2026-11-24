@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import payment.dto.PaymentDto;
@@ -16,6 +18,8 @@ import payment.service.PartnerService;
 @RequiredArgsConstructor
 @Slf4j
 public class PartnerServiceImpl implements PartnerService {
+
+    private static final String PAYMENT_SENDING_FAILED = "Payment sending failed";
 
     private final PartnerClientManager partnerClientManager;
 
@@ -39,14 +43,15 @@ public class PartnerServiceImpl implements PartnerService {
             //make sure 200 received
             return PaymentSendResult.SENT_TO_PARTNER_SUCCESS;
 
-        } catch (ResourceAccessException rae){
+        } catch (ResourceAccessException | HttpServerErrorException.GatewayTimeout recoverableException){
 
-            log.error("Resource exception", rae);
+            log.error(PAYMENT_SENDING_FAILED, recoverableException);
+
             return PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT;
         }
         catch (RuntimeException e) {
 
-            log.error("Payment sending failed", e);
+            log.error(PAYMENT_SENDING_FAILED, e);
 
             //map error here: recoverable/non-recoverable
             return PaymentSendResult.SENT_TO_PARTNER_FAILED_OTHER;

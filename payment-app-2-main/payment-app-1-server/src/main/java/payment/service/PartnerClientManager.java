@@ -5,5 +5,5 @@ import payment.model.PartnerClient;
 
 public interface PartnerClientManager {
 
-    PartnerClient get(Partner partner);
+    PartnerClient get(String partner);
 }

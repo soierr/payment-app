@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = new Payment();
         payment.setKey(paymentDto.getKey());
         payment.setAmount(paymentDto.getAmount());
-        payment.setPartner(paymentDto.getPartner().name());
+        payment.setPartner(paymentDto.getPartner());
         payment.setPaymentDate(paymentDto.getPaymentDate());
 
         try {
