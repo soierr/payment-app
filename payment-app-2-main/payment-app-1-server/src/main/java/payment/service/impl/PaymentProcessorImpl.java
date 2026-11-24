@@ -64,11 +64,12 @@ public class PaymentProcessorImpl implements PaymentProcessor {
         PaymentUpdateResult paymentUpdateResult = paymentService.update(paymentDto, paymentSentResult);
 
         PaymentRuntimeResult paymentRuntimeResult = PaymentRuntimeResult.builder()
+                .paymentCreateResult(paymentCreateResult)
                 .paymentSendResult(paymentSentResult)
                 .paymentUpdateResult(paymentUpdateResult)
+                .paymentDto(paymentDto)
                 .build();
 
         return paymentResultResolver.resolve(paymentRuntimeResult);
     }
-
 }
