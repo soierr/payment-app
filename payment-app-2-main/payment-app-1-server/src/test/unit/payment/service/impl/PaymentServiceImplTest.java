@@ -10,6 +10,8 @@ import org.springframework.web.client.ResourceAccessException;
 import payment.dto.PaymentDto;
 import payment.model.Payment;
 import payment.model.PaymentCreateResult;
+import payment.model.PaymentSendResult;
+import payment.model.PaymentUpdateResult;
 import payment.repository.PaymentRepository;
 
 import java.math.BigDecimal;
@@ -85,7 +87,7 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    void testProperResultWhenExceptionThrown() {
+    void testCreatePaymentProperResultWhenExceptionThrown() {
 
         Instant paymentDate = Instant.now();
 
@@ -116,4 +118,109 @@ class PaymentServiceImplTest {
         verify(paymentRepository, times(1)).findByKey("key-1");
     }
 
+    @Test
+    void testUpdatePayment() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        Payment payment = new Payment();
+        payment.setKey("key-1");
+        payment.setPaymentDate(paymentDate);
+        payment.setAmount(new BigDecimal("10.00"));
+        payment.setPartner("partner-1");
+
+        PaymentUpdateResult paymentUpdateResult = paymentService.update(paymentDto, PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
+
+        ArgumentCaptor<Payment> paymentCaptor = ArgumentCaptor.forClass(Payment.class);
+
+        verify(paymentRepository, times(1)).save(paymentCaptor.capture());
+
+        assertThat(paymentCaptor.getValue())
+                .usingRecursiveComparison()
+                .comparingOnlyFields("key", "paymentDate", "amount", "partner")
+                .isEqualTo(payment);
+
+        assertThat(paymentCaptor.getValue().getPaymentSendResult()).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
+        assertThat(paymentUpdateResult).isEqualTo(PaymentUpdateResult.UPDATE_DB_SUCCESS);
+    }
+
+    @Test
+    void testUpdatePaymentWithFailedSend() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        Payment payment = new Payment();
+        payment.setKey("key-1");
+        payment.setPaymentDate(paymentDate);
+        payment.setAmount(new BigDecimal("10.00"));
+        payment.setPartner("partner-1");
+
+        PaymentUpdateResult paymentUpdateResult = paymentService.update(paymentDto, PaymentSendResult.SENT_TO_PARTNER_FAILED_OTHER);
+
+        ArgumentCaptor<Payment> paymentCaptor = ArgumentCaptor.forClass(Payment.class);
+
+        verify(paymentRepository, times(1)).save(paymentCaptor.capture());
+
+
+        assertThat(paymentCaptor.getValue().getPaymentSendResult()).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_FAILED_OTHER);
+        assertThat(paymentUpdateResult).isEqualTo(PaymentUpdateResult.UPDATE_DB_SUCCESS);
+    }
+
+    @Test
+    void testUpdatePaymentExceptionIsNotPropagated() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        Payment payment = new Payment();
+        payment.setKey("key-1");
+        payment.setPaymentDate(paymentDate);
+        payment.setAmount(new BigDecimal("10.00"));
+        payment.setPartner("partner-1");
+
+        when(paymentRepository.save(any(Payment.class))).thenThrow(new ResourceAccessException("Invalid statement"));
+
+        assertThatCode(() -> paymentService.update(paymentDto, PaymentSendResult.SENT_TO_PARTNER_SUCCESS)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void testUpdatePaymentProperResultWhenExceptionThrown() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        Payment payment = new Payment();
+        payment.setKey("key-1");
+        payment.setPaymentDate(paymentDate);
+        payment.setAmount(new BigDecimal("10.00"));
+        payment.setPartner("partner-1");
+
+        when(paymentRepository.save(any(Payment.class))).thenThrow(new ResourceAccessException("Invalid statement"));
+
+        PaymentUpdateResult paymentUpdateResult = paymentService.update(paymentDto, PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
+
+        assertThat(paymentUpdateResult).isEqualTo(PaymentUpdateResult.UPDATE_DB_FAILED_OTHER);
+    }
 }
