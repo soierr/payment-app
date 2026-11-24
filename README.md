@@ -17,6 +17,7 @@ Under active development. Plans are the following:
 - release job setup with maven-release-plugin
 - java-client generation setup
 - open api, i.e. swagger, doc creation
+- secrets storage revisiting even for local env
 
 
 
