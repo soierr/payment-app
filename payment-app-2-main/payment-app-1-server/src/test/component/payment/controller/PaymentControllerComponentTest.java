@@ -16,7 +16,7 @@ import tools.jackson.databind.ObjectMapper;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @WebMvcTest
-public class PaymentControllerTest {
+class PaymentControllerComponentTest {
 
     @Autowired
     MockMvc mockMvc;

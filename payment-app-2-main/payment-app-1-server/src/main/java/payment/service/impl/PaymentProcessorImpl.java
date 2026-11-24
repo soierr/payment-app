@@ -35,6 +35,8 @@ public class PaymentProcessorImpl implements PaymentProcessor {
 
         if (retrieved != null) {
 
+            log.info("Retrieved payment: {}", retrieved);
+
             PaymentRuntimeResult paymentRuntimeResult = PaymentRuntimeResult.builder()
                     .paymentDto(paymentDto)
                     .paymentSendResult(retrieved.getPaymentSendResult())
