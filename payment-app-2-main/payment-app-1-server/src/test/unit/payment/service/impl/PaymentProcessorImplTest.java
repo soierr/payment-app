@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import payment.dto.PaymentDto;
 import payment.model.Payment;
+import payment.model.PaymentCreateResult;
 import payment.model.PaymentRuntimeResult;
 import payment.model.PaymentSendResult;
 import payment.service.PartnerService;
@@ -115,5 +116,61 @@ class PaymentProcessorImplTest {
         verify(paymentResultResolver, times(1)).resolve(paymentRuntimeResultCaptor.capture());
 
         assertThat(paymentRuntimeResultCaptor.getValue().getPaymentSendResult()).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
+    }
+
+    @Test
+    void testCreatePaymentServiceIsProperlyCalled() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        when(paymentService.findByKey("key-1")).thenReturn(null); //null is returned by mock by default afaik, added for clarity
+
+        ArgumentCaptor<PaymentDto> paymentDtoCaptor = ArgumentCaptor.forClass(PaymentDto.class);
+
+        paymentProcessor.process(paymentDto);
+
+        verify(paymentService, times(1)).create(paymentDtoCaptor.capture());
+
+        assertThat(paymentDtoCaptor.getValue().getKey()).isEqualTo(paymentDto.getKey());
+        assertThat(paymentDtoCaptor.getValue().getPaymentDate()).isEqualTo(paymentDto.getPaymentDate());
+        assertThat(paymentDtoCaptor.getValue().getAmount()).isEqualTo(paymentDto.getAmount());
+        assertThat(paymentDtoCaptor.getValue().getPartner()).isEqualTo(paymentDto.getPartner());
+    }
+
+    @Test
+    void testCreatedPaymentInDbFailed() {
+
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        when(paymentService.create(argThat(p -> {
+            assertThat(p.getKey()).isEqualTo("key-1");
+            return true;
+        }))).thenReturn(PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT);
+
+        ArgumentCaptor<PaymentRuntimeResult> paymentRuntimeResultCaptor = ArgumentCaptor.forClass(PaymentRuntimeResult.class);
+
+        paymentProcessor.process(paymentDto);
+
+        verify(paymentResultResolver, times(1)).resolve(paymentRuntimeResultCaptor.capture());
+
+        assertThat(paymentRuntimeResultCaptor.getValue().getPaymentDto())
+                .usingRecursiveComparison()
+                .comparingOnlyFields("key", "paymentDate", "amount", "partner") //cool feature
+                .isEqualTo(paymentDto);
+
+        assertThat(paymentRuntimeResultCaptor.getValue().getPaymentCreateResult())
+                .isEqualTo(PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT);
     }
 }
