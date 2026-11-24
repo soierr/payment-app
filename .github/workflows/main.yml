@@ -26,7 +26,7 @@ jobs:
       id: test-results
       if: (!cancelled())
       with:
-        files: "./payment-app-2-main/target/surefire-reports/*.xml"
+        files: "./payment-app-2-main/payment-app-1-server/target/surefire-reports/*.xml"
         job_summary: false    
         check_run: false
     - name: Check current folder
