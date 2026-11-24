@@ -9,6 +9,15 @@ A playground to solidify common approaches in Java Spring app development and ch
 
 Not a business application, based on real enterprise experience though
 
+Under active development. Plans are the following:
+
+- unit test coverage ~90%
+- pipeline feature setup: docker image publish for integration tests
+- pipeline feature setup: integration test run
+- release job setup with maven-release-plugin
+- java-client generation setup
+- open api, i.e. swagger, doc creation
+
 
 
 
