@@ -1,17 +1,14 @@
 package payment.controller;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import payment.dto.PaymentDto;
 import payment.dto.PaymentResultDto;
 import payment.model.PaymentResultState;
 import payment.service.PaymentProcessor;
@@ -21,7 +18,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,12 +40,12 @@ class PaymentControllerComponentTest {
     void testKeyNull() throws Exception {
 
         String paymentDto = """
-            {
-              "key": null,
-              "paymentDate": "2026-11-19T10:00:00.123Z",
-              "amount": 100.00,
-              "partner": "partner-1"
-            }""";
+                {
+                  "key": null,
+                  "paymentDate": "2026-11-19T10:00:00.123Z",
+                  "amount": 100.00,
+                  "partner": "partner-1"
+                }""";
 
         /*
             Expected response, ProblemDetails
@@ -74,12 +70,12 @@ class PaymentControllerComponentTest {
     void testPartnerNull() throws Exception {
 
         String paymentDto = """
-            {
-              "key": "key-1",
-              "paymentDate": "2026-11-19T10:00:00.123Z",
-              "amount": 100.00,
-              "partner": null
-            }""";
+                {
+                  "key": "key-1",
+                  "paymentDate": "2026-11-19T10:00:00.123Z",
+                  "amount": 100.00,
+                  "partner": null
+                }""";
 
         /*
             Expected response, ProblemDetails
@@ -104,12 +100,12 @@ class PaymentControllerComponentTest {
     void testPartnerEmpty() throws Exception {
 
         String paymentDto = """
-            {
-              "key": "key-1",
-              "paymentDate": "2026-11-19T10:00:00.123Z",
-              "amount": 100.00,
-              "partner": ""
-            }""";
+                {
+                  "key": "key-1",
+                  "paymentDate": "2026-11-19T10:00:00.123Z",
+                  "amount": 100.00,
+                  "partner": ""
+                }""";
 
         /*
             Expected response, ProblemDetails
@@ -134,12 +130,12 @@ class PaymentControllerComponentTest {
     void testMalformedJson() throws Exception {
 
         String paymentDto = """
-      
-              "key": null,
-              "paymentDate": "2026-11-19T10:00:00.123Z",
-              "amount": 100.00
-              "partner": "partner-1"
-            }""";
+                
+                  "key": null,
+                  "paymentDate": "2026-11-19T10:00:00.123Z",
+                  "amount": 100.00
+                  "partner": "partner-1"
+                }""";
 
         /*
             Expected response, ProblemDetails
@@ -164,12 +160,12 @@ class PaymentControllerComponentTest {
     void testProperPaymentResultDtoReturned() throws Exception {
 
         String paymentDto = """
-              {
-                  "key": "key-1",
-                  "paymentDate": "2026-11-19T10:00:00.123Z",
-                  "amount": "10.00",
-                  "partner": "partner-1"
-              }""";
+                {
+                    "key": "key-1",
+                    "paymentDate": "2026-11-19T10:00:00.123Z",
+                    "amount": "10.00",
+                    "partner": "partner-1"
+                }""";
 
         PaymentResultDto paymentResultDto = PaymentResultDto.builder()
                 .key("key-1")
@@ -209,16 +205,16 @@ class PaymentControllerComponentTest {
     void testPaymentProcessorCalledProperly() throws Exception {
 
         String paymentDto = """
-              {
-                  "key": "key-1",
-                  "paymentDate": "2026-11-19T10:00:00.123Z",
-                  "amount": "10.00",
-                  "partner": "partner-1"
-              }""";
+                {
+                    "key": "key-1",
+                    "paymentDate": "2026-11-19T10:00:00.123Z",
+                    "amount": "10.00",
+                    "partner": "partner-1"
+                }""";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/payment")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(paymentDto));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(paymentDto));
 
         verify(paymentProcessor, times(1)).process(argThat(p -> {
 
@@ -228,5 +224,44 @@ class PaymentControllerComponentTest {
             assertThat(p.getPartner()).isEqualTo("partner-1");
             return true;
         }));
+    }
+
+    @Test
+    void test() throws Exception {
+
+        String paymentDto = """
+                {
+                    "key": "key-1",
+                    "paymentDate": "2026-11-19T10:00:00.123Z",
+                    "amount": "10.00",
+                    "partner": "partner-1"
+                }""";
+
+        when(paymentProcessor.process(argThat(p -> {
+            assertThat(p.getKey()).isEqualTo("key-1");
+            return true;
+        }))).thenThrow(new ConversionNotSupportedException(new Object(), null, new RuntimeException("This test cause")));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/payment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(paymentDto));
+
+        /*
+            Expected response, ProblemDetails
+            {
+                "detail": "Internal Error",
+                "instance": "/payment",
+                "status": 500,
+                "title": "Internal Server Error"
+            }
+         */
+        mockMvc.perform(MockMvcRequestBuilders.post("/payment")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(paymentDto))
+                .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+                .andExpect(jsonPath("$.detail").value("Internal Error"))
+                .andExpect(jsonPath("$.instance").value("/payment"))
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.title").value("Internal Server Error"));
     }
 }

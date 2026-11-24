@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import payment.dto.PaymentDto;
 import payment.dto.PaymentResultDto;
 import payment.service.PaymentProcessor;
-import tools.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/payment")
@@ -22,7 +21,6 @@ public class PaymentController {
      */
 
     private final PaymentProcessor paymentProcessor;
-    private final ObjectMapper objectMapper;
 
     @PostMapping
     PaymentResultDto createPayment(@Validated @RequestBody PaymentDto paymentDto) {
