@@ -1,5 +1,7 @@
 package payment.properties;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,5 +16,7 @@ import java.util.Map;
 @Setter
 @Validated
 public class PartnerProperties {
+    @NotNull
+    @NotEmpty
     private Map<String, PartnerConfig> partners;
 }
