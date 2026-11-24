@@ -173,4 +173,24 @@ class PaymentProcessorImplTest {
         assertThat(paymentRuntimeResultCaptor.getValue().getPaymentCreateResult())
                 .isEqualTo(PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT);
     }
+
+    @Test
+    void testNewPaymentSentToPartner() {
+        Instant paymentDate = Instant.now();
+
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setKey("key-1");
+        paymentDto.setPaymentDate(paymentDate);
+        paymentDto.setAmount(new BigDecimal("10.00"));
+        paymentDto.setPartner("partner-1");
+
+        when(paymentService.create(argThat(p -> {
+            assertThat(p.getKey()).isEqualTo("key-1");
+            return true;
+        }))).thenReturn(PaymentCreateResult.CREATE_DB_SUCCESS);
+
+        ArgumentCaptor<PaymentRuntimeResult> paymentRuntimeResultCaptor = ArgumentCaptor.forClass(PaymentRuntimeResult.class);
+
+        paymentProcessor.process(paymentDto);
+    }
 }
