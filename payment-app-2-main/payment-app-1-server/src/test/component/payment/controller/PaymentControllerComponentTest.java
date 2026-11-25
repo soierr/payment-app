@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import payment.dto.PaymentResultDto;
 import payment.model.PaymentResultStateDto;
 import payment.service.PaymentProcessor;
-import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -28,13 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PaymentControllerComponentTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockitoBean
-    PaymentProcessor paymentProcessor;
-
-    @Autowired
-    ObjectMapper objectMapper;
+    private PaymentProcessor paymentProcessor;
 
     @Test
     void testKeyNull() throws Exception {
