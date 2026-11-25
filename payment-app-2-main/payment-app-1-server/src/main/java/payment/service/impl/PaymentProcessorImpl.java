@@ -12,7 +12,6 @@ import payment.model.PaymentSendResult;
 import payment.model.PaymentUpdateResult;
 import payment.service.PartnerService;
 import payment.service.PaymentProcessor;
-import payment.service.PaymentRecoveryService;
 import payment.service.PaymentResultResolver;
 import payment.service.PaymentService;
 
@@ -23,8 +22,12 @@ public class PaymentProcessorImpl implements PaymentProcessor {
 
     private final PaymentService paymentService;
     private final PartnerService partnerService;
-    private final PaymentRecoveryService paymentRecoveryService;
     private final PaymentResultResolver paymentResultResolver;
+
+    /*
+        There are two possible retries: from client and internal
+        Client can initiate retry based on response which may contain TIMER_ERROR
+     */
 
     @Override
     public PaymentResultDto process(PaymentDto paymentDto) {
@@ -42,9 +45,15 @@ public class PaymentProcessorImpl implements PaymentProcessor {
                     .paymentSendResult(retrieved.getPaymentSendResult())
                     .build();
 
-            PaymentRuntimeResult processed = paymentRecoveryService.process(paymentRuntimeResult);
+            PaymentSendResult paymentSendResult = partnerService.sendRetry(paymentRuntimeResult);
 
-            return paymentResultResolver.resolve(processed);
+            paymentRuntimeResult.setPaymentSendResult(paymentSendResult);
+
+            PaymentUpdateResult paymentUpdateResult = paymentService.update(paymentDto, paymentSendResult);
+
+            paymentRuntimeResult.setPaymentUpdateResult(paymentUpdateResult);
+
+            return paymentResultResolver.resolve(paymentRuntimeResult);
         }
 
         PaymentCreateResult paymentCreateResult = paymentService.create(paymentDto);

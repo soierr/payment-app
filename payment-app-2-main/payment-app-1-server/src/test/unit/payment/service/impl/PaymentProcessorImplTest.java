@@ -13,7 +13,6 @@ import payment.model.PaymentRuntimeResult;
 import payment.model.PaymentSendResult;
 import payment.model.PaymentUpdateResult;
 import payment.service.PartnerService;
-import payment.service.PaymentRecoveryService;
 import payment.service.PaymentResultResolver;
 import payment.service.PaymentService;
 
@@ -21,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -34,8 +34,6 @@ class PaymentProcessorImplTest {
     private PaymentService paymentService;
     @Mock
     private PartnerService partnerService;
-    @Mock
-    private PaymentRecoveryService paymentRecoveryService;
     @Mock
     private PaymentResultResolver paymentResultResolver;
     @InjectMocks
@@ -62,11 +60,17 @@ class PaymentProcessorImplTest {
 
         when(paymentService.findByKey("key-1")).thenReturn(payment);
 
+        /*
+           if when omitted, quite strange behavior with captor below
+           See debug for details
+         */
+        when(partnerService.sendRetry(any(PaymentRuntimeResult.class))).thenReturn(PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
+
         paymentProcessor.process(paymentDto);
 
         ArgumentCaptor<PaymentRuntimeResult> paymentRuntimeResultCaptor = ArgumentCaptor.forClass(PaymentRuntimeResult.class);
 
-        verify(paymentRecoveryService, times(1)).process(paymentRuntimeResultCaptor.capture());
+        verify(partnerService, times(1)).sendRetry(paymentRuntimeResultCaptor.capture());
 
         PaymentRuntimeResult paymentRuntimeResultActual = paymentRuntimeResultCaptor.getValue();
 
@@ -101,15 +105,11 @@ class PaymentProcessorImplTest {
 
         when(paymentService.findByKey("key-1")).thenReturn(payment);
 
-        PaymentRuntimeResult paymentRuntimeResultUpdated = PaymentRuntimeResult.builder()
-                .paymentSendResult(PaymentSendResult.SENT_TO_PARTNER_SUCCESS)
-                .build();
-
-        when(paymentRecoveryService.process(argThat(result -> {
+        when(partnerService.sendRetry(argThat(result -> {
             assertThat(result.getPaymentDto().getKey()).isEqualTo("key-1");
             assertThat(result.getPaymentSendResult()).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT);
             return true;
-        }))).thenReturn(paymentRuntimeResultUpdated);
+        }))).thenReturn(PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
 
         paymentProcessor.process(paymentDto);
 
@@ -279,5 +279,4 @@ class PaymentProcessorImplTest {
         assertThat(paymentRuntimeResultCaptor.getValue().getPaymentSendResult()).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_SUCCESS);
         assertThat(paymentRuntimeResultCaptor.getValue().getPaymentUpdateResult()).isEqualTo(PaymentUpdateResult.UPDATE_DB_SUCCESS);
     }
-
 }

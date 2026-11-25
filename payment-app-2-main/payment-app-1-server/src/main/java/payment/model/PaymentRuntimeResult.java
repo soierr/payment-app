@@ -1,16 +1,19 @@
 package payment.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import payment.dto.PaymentDto;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class PaymentRuntimeResult {
-    private final PaymentDto paymentDto;
-    private final PaymentCreateResult paymentCreateResult;
-    private final PaymentSendResult paymentSendResult;
-    private final PaymentUpdateResult paymentUpdateResult;
+    private PaymentDto paymentDto;
+    private PaymentCreateResult paymentCreateResult;
+    private PaymentSendResult paymentSendResult;
+    private PaymentUpdateResult paymentUpdateResult;
 }

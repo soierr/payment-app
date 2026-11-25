@@ -6,13 +6,9 @@ import payment.model.PaymentCreateResult;
 import payment.model.PaymentResultState;
 import payment.model.PaymentRuntimeResult;
 import payment.model.PaymentSendResult;
-import payment.model.PaymentUpdateResult;
 import payment.service.PaymentResultResolver;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 @Component
@@ -25,6 +21,7 @@ public class PaymentResultResolverImpl implements PaymentResultResolver {
         this.states = Map.of(
                 PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
                 PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
+                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT_NO_RETRY_ALLOWED.name(), PaymentResultState.INTERNAL_ERROR,
                 PaymentCreateResult.CREATE_DB_FAILED_OTHER.name(), PaymentResultState.INTERNAL_ERROR);
         /*
             According to mapping there are errors which we treat as success like UPDATE_DB_FAILED_TIMEOUT
