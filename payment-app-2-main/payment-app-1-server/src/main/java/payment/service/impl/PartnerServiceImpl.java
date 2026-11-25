@@ -94,6 +94,11 @@ public class PartnerServiceImpl implements PartnerService {
 
                 log.error(PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED.name()); //to update
 
+                /*
+                    We don't know what happened before, db is failed when updating a record
+                    I might be that sending has failed or succeeded
+                    But we know for sure, that we can not call it twice
+                 */
                 return PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED;
             }
         }
