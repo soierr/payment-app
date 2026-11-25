@@ -425,7 +425,7 @@ class PartnerServiceImplTest {
 
         PaymentSendResult paymentSendResultUpdated = partnerService.sendRetry(paymentRuntimeResult);
 
-        assertThat(paymentSendResultUpdated).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT_NO_RETRY_ALLOWED);
+        assertThat(paymentSendResultUpdated).isEqualTo(PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED);
 
         verify(partnerService, times(0)).send(any(PaymentDto.class));
     }

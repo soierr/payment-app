@@ -1,6 +1,6 @@
 package payment.model;
 
-public enum PaymentResultState {
+public enum PaymentResultStateDto {
     PROCESSED,
     TIMEOUT_ERROR,
     VALIDATION_ERROR,

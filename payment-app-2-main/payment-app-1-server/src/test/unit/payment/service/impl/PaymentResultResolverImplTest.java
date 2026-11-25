@@ -6,7 +6,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import payment.dto.PaymentDto;
 import payment.dto.PaymentResultDto;
 import payment.model.PaymentCreateResult;
-import payment.model.PaymentResultState;
+import payment.model.PaymentResultStateDto;
 import payment.model.PaymentRuntimeResult;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -26,6 +26,6 @@ class PaymentResultResolverImplTest {
 
         PaymentResultDto paymentResultDto = paymentResultResolver.resolve(paymentRuntimeResult);
 
-        assertThat(paymentResultDto.getPaymentResultState()).isEqualTo(PaymentResultState.TIMEOUT_ERROR);
+        assertThat(paymentResultDto.getPaymentResultStateDto()).isEqualTo(PaymentResultStateDto.TIMEOUT_ERROR);
     }
 }

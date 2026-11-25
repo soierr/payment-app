@@ -3,9 +3,10 @@ package payment.service.impl;
 import org.springframework.stereotype.Component;
 import payment.dto.PaymentResultDto;
 import payment.model.PaymentCreateResult;
-import payment.model.PaymentResultState;
+import payment.model.PaymentResultStateDto;
 import payment.model.PaymentRuntimeResult;
 import payment.model.PaymentSendResult;
+import payment.model.PaymentUpdateResult;
 import payment.service.PaymentResultResolver;
 
 import java.util.Map;
@@ -14,18 +15,20 @@ import java.util.stream.Stream;
 @Component
 public class PaymentResultResolverImpl implements PaymentResultResolver {
 
-    private final Map<String, PaymentResultState> states;
+    private final Map<String, PaymentResultStateDto> states;
 
     public PaymentResultResolverImpl() {
 
         this.states = Map.of(
-                PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
-                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT.name(), PaymentResultState.TIMEOUT_ERROR,
-                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT_NO_RETRY_ALLOWED.name(), PaymentResultState.INTERNAL_ERROR,
-                PaymentCreateResult.CREATE_DB_FAILED_OTHER.name(), PaymentResultState.INTERNAL_ERROR);
+                PaymentCreateResult.CREATE_DB_FAILED_TIMEOUT.name(), PaymentResultStateDto.TIMEOUT_ERROR,
+                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT.name(), PaymentResultStateDto.TIMEOUT_ERROR,
+                PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT_NO_RETRY_ALLOWED.name(), PaymentResultStateDto.INTERNAL_ERROR,
+                PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED.name(), PaymentResultStateDto.INTERNAL_ERROR,
+                PaymentUpdateResult.UPDATE_DB_FAILED_TIMEOUT.name(), PaymentResultStateDto.INTERNAL_ERROR,
+                PaymentUpdateResult.UPDATE_DB_FAILED_OTHER.name(), PaymentResultStateDto.INTERNAL_ERROR);
+
         /*
-            According to mapping there are errors which we treat as success like UPDATE_DB_FAILED_TIMEOUT
-            The payment considered as PROCESSED in this case
+            We map by priority from up to bottom see code below
          */
     }
 
@@ -35,17 +38,17 @@ public class PaymentResultResolverImpl implements PaymentResultResolver {
                 .paymentDate(paymentRuntimeResult.getPaymentDto().getPaymentDate())
                 .key(paymentRuntimeResult.getPaymentDto().getKey())
                 .amount(paymentRuntimeResult.getPaymentDto().getAmount())
-                .paymentResultState(map(paymentRuntimeResult))
+                .paymentResultStateDto(map(paymentRuntimeResult))
                 .build();
     }
 
-    private PaymentResultState map(PaymentRuntimeResult paymentRuntimeResult) {
+    private PaymentResultStateDto map(PaymentRuntimeResult paymentRuntimeResult) {
 
         return Stream.of(paymentRuntimeResult.getPaymentCreateResult(),
                         paymentRuntimeResult.getPaymentSendResult())
                 .map(Enum::name)
                 .map(states::get)
                 .findFirst()
-                .orElse(PaymentResultState.PROCESSED);
+                .orElse(PaymentResultStateDto.PROCESSED);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import payment.dto.PaymentResultDto;
-import payment.model.PaymentResultState;
+import payment.model.PaymentResultStateDto;
 import payment.service.PaymentProcessor;
 import tools.jackson.databind.ObjectMapper;
 
@@ -171,7 +171,7 @@ class PaymentControllerComponentTest {
                 .key("key-1")
                 .paymentDate(Instant.parse("2026-11-19T10:00:00.123Z"))
                 .amount(new BigDecimal("10.00"))
-                .paymentResultState(PaymentResultState.PROCESSED)
+                .paymentResultStateDto(PaymentResultStateDto.PROCESSED)
                 .partner("partner-1")
                 .build();
 
@@ -197,7 +197,7 @@ class PaymentControllerComponentTest {
                 .andExpect(jsonPath("$.key").value("key-1"))
                 .andExpect(jsonPath("$.paymentDate").value("2026-11-19T10:00:00.123Z"))
                 .andExpect(jsonPath("$.amount").value(10.00)) //doesn't matter how many trailing zeros, strange assert
-                .andExpect(jsonPath("$.paymentResultState").value("PROCESSED"))
+                .andExpect(jsonPath("$.paymentResultStateDto").value("PROCESSED"))
                 .andExpect(jsonPath("$.partner").value("partner-1"));
     }
 

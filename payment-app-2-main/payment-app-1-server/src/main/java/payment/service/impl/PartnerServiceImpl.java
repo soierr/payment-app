@@ -91,13 +91,10 @@ public class PartnerServiceImpl implements PartnerService {
 
                 return send(paymentDto);
             } else {
-                /*
-                    Complement to previous comment.
-                    So if partner is not idempotent, and we receive client retry and there is no info about previous sending
-                    we treat it as case of db update failure after sending payment to partner at first time.
-                    So here we just try to rewrite previous call to the variable
-                 */
-                return PaymentSendResult.SENT_TO_PARTNER_FAILED_TIMEOUT_NO_RETRY_ALLOWED;
+
+                log.error(PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED.name()); //to update
+
+                return PaymentSendResult.SENT_TO_PARTNER_UNKNOWN_NO_RETRY_ALLOWED;
             }
         }
 

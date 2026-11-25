@@ -25,8 +25,10 @@ public class PaymentProcessorImpl implements PaymentProcessor {
     private final PaymentResultResolver paymentResultResolver;
 
     /*
-        There are two possible retries: from client and internal
-        Client can initiate retry based on response which may contain TIMER_ERROR
+        Retry here, means from API client
+        We provide an option for client to decide whether he wants to retry
+        This is done by returning general TIMEOUT_ERROR in response
+        We strictly track cases when we can return such an error
      */
 
     @Override
